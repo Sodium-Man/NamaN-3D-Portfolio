@@ -1,18 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useAnimations, useFBX, useGLTF, useFrame } from "@react-three/drei";
+import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { useControls }  from "leva";
 
 export function Avatar(props) {
 
-  const {headFollow} = useControls({
+  const {headFollow, cursorFollow} = useControls({
     headFollow: false,
+    cursorFollow: false,
   })
   const { nodes, materials } = useGLTF("models/6603efe1676c04edeb1ee00b.glb");
 
   // animations
   const { animations: typingAnimation } = useFBX("animations/Typing.fbx");
+  const { animations: standingAnimation } = useFBX("animations/Standing Idle.fbx");
+  const { animations: fallingAnimation } = useFBX("animations/Falling Idle.fbx");
 
   typingAnimation[0].name = "Typing";
+  standingAnimation[0].name = "Standing";
+  fallingAnimation[0].name = "Falling Idle";
 
   const [animation, setAnimation] = useState("Typing");
 
@@ -29,6 +35,10 @@ export function Avatar(props) {
     if (headFollow) {
       group.current.getObjectByName("Head").lookAt(state.camera.position);  
     }  
+    if (cursorFollow) {
+      const target = new THREE.Vector3(state.mouse.x, state.mouse.y, 1);
+      group.current.getObjectByName("Spine2").lookAt(target);
+    }
    }); 
   
 
