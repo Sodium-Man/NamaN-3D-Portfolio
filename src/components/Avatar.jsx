@@ -26,7 +26,9 @@ export function Avatar(props) {
   );
 
   useFrame((state) => {
-      group.current.getObjectByName("Head").lookAt(state.camera.position);    
+    if (headFollow) {
+      group.current.getObjectByName("Head").lookAt(state.camera.position);  
+    }  
    }); 
   
 
