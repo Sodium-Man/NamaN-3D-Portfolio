@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
+import { useAnimations, useFBX, useGLTF, useFrame } from "@react-three/drei";
+import { useControls }  from "leva";
 
 export function Avatar(props) {
+
+  const {headFollow} = useControls({
+    headFollow: false,
+  })
   const { nodes, materials } = useGLTF("models/6603efe1676c04edeb1ee00b.glb");
 
   // animations
@@ -20,6 +25,11 @@ export function Avatar(props) {
     group
   );
 
+  useFrame((state) => {
+      group.current.getObjectByName("Head").lookAt(state.camera.position);    
+   }); 
+  
+
   useEffect(() => {
     console.log("animation :", animation);
     actions[animation].reset().fadeIn(0.5).play();
@@ -28,6 +38,7 @@ export function Avatar(props) {
 
   return (
     <group {...props} ref={group} dispose={null}>
+      <group rotation-x={-Math.PI /2}>
     <primitive object={nodes.Hips} />
     <skinnedMesh
       name="EyeLeft"
@@ -101,7 +112,9 @@ export function Avatar(props) {
       skeleton={nodes.Wolf3D_Outfit_Top.skeleton}
   frustumCulled={false}
       />
-  </group>
+       </group>
+   </group>
+ 
   );
 }
 
