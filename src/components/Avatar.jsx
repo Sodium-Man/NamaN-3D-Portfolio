@@ -5,7 +5,7 @@ import { useControls }  from "leva";
 import * as THREE from "three";
 
 export function Avatar(props) {
-
+  const{animation} = props;
   const {headFollow, cursorFollow} = useControls({
     headFollow: false,
     cursorFollow: false,
@@ -21,13 +21,13 @@ export function Avatar(props) {
   standingAnimation[0].name = "Standing";
   fallingAnimation[0].name = "Falling Idle";
 
-  const [animation, setAnimation] = useState("Typing");
+  const [animation1, setAnimation] = useState("Typing");
 
   const group = useRef();
 
   const { actions } = useAnimations(
     [
-      typingAnimation[0],
+      typingAnimation[0],standingAnimation[0],fallingAnimation[0]
     ],
     group
   );
@@ -44,9 +44,9 @@ export function Avatar(props) {
   
 
   useEffect(() => {
-    console.log("animation :", animation);
+    console.log("animation :", animation1);
     actions[animation].reset().fadeIn(0.5).play();
-    return () => actions[animation].fadeOut(0.5);
+    return () => actions[animation].fadeOut(0.5).stop();
   }, [animation, actions]);
 
   return (
