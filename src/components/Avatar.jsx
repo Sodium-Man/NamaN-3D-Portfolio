@@ -6,9 +6,10 @@ import * as THREE from "three";
 
 export function Avatar(props) {
   const{animation} = props;
-  const {headFollow, cursorFollow} = useControls({
+  const {headFollow, cursorFollow, wireframe} = useControls({
     headFollow: false,
     cursorFollow: false,
+    wireframe : false,
   })
   const { nodes, materials } = useGLTF("models/6603efe1676c04edeb1ee00b.glb");
 
@@ -48,6 +49,12 @@ export function Avatar(props) {
     actions[animation].reset().fadeIn(0.5).play();
     return () => actions[animation].fadeOut(0.5).stop();
   }, [animation, actions]);
+
+  useEffect(() => {
+    Object.values(materials).forEach((material) => {
+      material.wireframe = wireframe;
+    });
+  }, [wireframe]);
 
   return (
     <group {...props} ref={group} dispose={null}>
