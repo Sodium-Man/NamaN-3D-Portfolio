@@ -19,7 +19,7 @@ export function Avatar(props) {
 
   typingAnimation[0].name = "Typing";
   standingAnimation[0].name = "Standing";
-  fallingAnimation[0].name = "Falling Idle";
+  fallingAnimation[0].name = "Falling";
 
   const [animation1, setAnimation] = useState("Typing");
 
