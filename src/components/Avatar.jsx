@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useControls }  from "leva";
+import * as THREE from "three";
 
 export function Avatar(props) {
 
